@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bista Solutions Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .chat-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #chat-box {
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .bot-message {
+            background-color: #e1f5fe;
+            align-self: flex-start;
+        }
+
+        .user-message {
+            background-color: #c8e6c9;
+            align-self: flex-end;
+        }
+
+        #user-input {
+            border: none;
+            padding: 15px;
+            flex: none;
+            width: calc(100% - 100px);
+        }
+
+        #send-btn {
+            padding: 15px;
+            background-color: #1e88e5;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            flex: none;
+            width: 100px;
+        }
+
+        #send-btn:hover {
+            background-color: #1565c0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="chat-container">
+        <div id="chat-box">
+            <div class="message bot-message">Hello! How can I assist you today?</div>
+        </div>
+        <div style="display: flex;">
+            <input type="text" id="user-input" placeholder="Ask your question">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#send-btn').click(function() {
+                var userInput = $('#user-input').val().trim();
+                if (userInput === '') {
+                    alert('Please enter a message.');
+                    return;
+                }
+
+                $.ajax({
+                    url: "http://localhost:5002/api/chatbot",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ message: userInput }),
+                    success: function(response) {
+                        $('#chat-box').append('<div class="message user-message">' + userInput + '</div>');
+                        $('#chat-box').append('<div class="message bot-message">' + response.response + '</div>');
+                        $('#user-input').val('');
+                    },
+                    error: function() {
+                        alert('Error occurred while processing your request.');
+                    }
+                });
+            });
+
+            $('#user-input').keypress(function(event) {
+                if (event.which == 13) {
+                    $('#send-btn').click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

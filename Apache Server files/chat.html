@@ -1,0 +1,263 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bista Solutions Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        #chat-container {
+            margin-top: 20px;
+        }
+        #chatbox {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: calc(100% - 100px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #error-message {
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bista Solutions Chatbot</h1>
+    <div id="chat-container">
+        <div id="chatbox"></div>
+        <input type="text" id="user-input" placeholder="Type your message here..." required>
+        <button id="send-button">Send</button>
+        <p id="error-message"></p>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const chatbox = document.getElementById("chatbox");
+            const userInput = document.getElementById("user-input");
+            const sendButton = document.getElementById("send-button");
+            const errorMessage = document.getElementById("error-message");
+
+            // Retrieve email and session ID from localStorage
+            const userEmail = localStorage.getItem('user_email');
+            const sessionId = localStorage.getItem('session_id');
+
+            sendButton.addEventListener("click", function() {
+                const message = userInput.value;
+                if (message.trim() === "") return;
+
+                appendMessage("User", message);
+                userInput.value = "";
+
+                console.log("Sending message to API:", message);
+
+                fetch("http://localhost:5002/api/chatbot", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ message: message, session_id: sessionId, email: userEmail })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Received response from API:", data);
+                    appendMessage("Bot", data.response);
+                    errorMessage.style.display = "none"; // Hide error message if previously shown
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    errorMessage.textContent = "Failed to connect to the API. Please make sure the API is running.";
+                    errorMessage.style.display = "block"; // Show error message
+                });
+            });
+
+            function appendMessage(sender, message) {
+                const messageElement = document.createElement("div");
+                messageElement.textContent = `${sender}: ${message}`;
+                chatbox.appendChild(messageElement);
+                chatbox.scrollTop = chatbox.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html> -->
+
+<!-- 
+Updated chat html using new csss -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bista Solutions Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        #chat-container {
+            margin-top: 20px;
+        }
+        #chatbox {
+            border: 1px solid #ddd;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            background: #f9f9f9;
+        }
+        #chatbox div {
+            margin: 5px 0;
+        }
+        #chatbox .user-message {
+            text-align: right;
+            color: #4CAF50;
+        }
+        #chatbox .bot-message {
+            text-align: left;
+            color: #333;
+        }
+        input[type="text"] {
+            width: calc(100% - 100px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #error-message {
+            color: red;
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bista Solutions Chatbot</h1>
+        <div id="chat-container">
+            <div id="chatbox"></div>
+            <input type="text" id="user-input" placeholder="Type your message here..." required>
+            <button id="send-button">Send</button>
+            <p id="error-message"></p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const chatbox = document.getElementById("chatbox");
+            const userInput = document.getElementById("user-input");
+            const sendButton = document.getElementById("send-button");
+            const errorMessage = document.getElementById("error-message");
+
+            // Retrieve email and session ID from localStorage
+            const userEmail = localStorage.getItem('user_email');
+            const sessionId = localStorage.getItem('session_id');
+
+            sendButton.addEventListener("click", function() {
+                const message = userInput.value;
+                if (message.trim() === "") return;
+
+                appendMessage("User", message, "user-message");
+                userInput.value = "";
+
+                console.log("Sending message to API:", message);
+
+                fetch("http://localhost:5002/api/chatbot", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ message: message, session_id: sessionId, email: userEmail })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Received response from API:", data);
+                    appendMessage("Bot", data.response, "bot-message");
+                    errorMessage.style.display = "none"; // Hide error message if previously shown
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    errorMessage.textContent = "Failed to connect to the API. Please make sure the API is running.";
+                    errorMessage.style.display = "block"; // Show error message
+                });
+            });
+
+            function appendMessage(sender, message, messageClass) {
+                const messageElement = document.createElement("div");
+                messageElement.textContent = `${sender}: ${message}`;
+                messageElement.className = messageClass;
+                chatbox.appendChild(messageElement);
+                chatbox.scrollTop = chatbox.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
+

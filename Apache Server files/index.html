@@ -1,0 +1,380 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bista Solutions Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #error-message {
+            margin-top: 20px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Bista Solutions Chatbot</h1>
+    <form id="user-info-form">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="contact-number">Contact Number:</label>
+        <input type="text" id="contact-number" name="contact_number"><br><br>
+        
+        <label for="address">Address:</label>
+        <textarea id="address" name="address"></textarea><br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+    <p id="error-message"></p>
+    
+    <script>
+        $(document).ready(function() {
+            $('#user-info-form').submit(function(event) {
+                event.preventDefault();
+                var email = $('#email').val();
+                var contactNumber = $('#contact-number').val();
+                var address = $('#address').val();
+
+                $.ajax({
+                    url: "http://localhost:5002/api/submit_info",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        email: email,
+                        contact_number: contactNumber,
+                        address: address
+                    }),
+                    success: function(response) {
+                        if (response.response === 'Email verified!! You can ask your questions now.') {
+                            localStorage.setItem('user_email', email);
+                            localStorage.setItem('session_id', response.session_id);
+                            window.location.href = "chat.html";
+                        } else {
+                            $('#error-message').text(response.message);
+                        }
+                    },
+                    error: function() {
+                        $('#error-message').text('Error occurred while processing your request.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> -->
+
+
+<!-- 
+Updated index html using new csss -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bista Solutions Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input, textarea {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #error-message {
+            margin-top: 20px;
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Bista Solutions Chatbot</h1>
+        <form id="user-info-form">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="contact-number">Contact Number:</label>
+            <input type="text" id="contact-number" name="contact_number">
+            
+            <label for="address">Address:</label>
+            <textarea id="address" name="address"></textarea>
+            
+            <button type="submit">Submit</button>
+        </form>
+        <p id="error-message"></p>
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+            $('#user-info-form').submit(function(event) {
+                event.preventDefault();
+                var email = $('#email').val();
+                var contactNumber = $('#contact-number').val();
+                var address = $('#address').val();
+
+                $.ajax({
+                    url: "http://localhost:5002/api/submit_info",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        email: email,
+                        contact_number: contactNumber,
+                        address: address
+                    }),
+                    success: function(response) {
+                        if (response.response === 'Email verified!! You can ask your questions now.') {
+                            localStorage.setItem('user_email', email);
+                            localStorage.setItem('session_id', response.session_id);
+                            window.location.href = "chat.html";
+                        } else {
+                            $('#error-message').text(response.message);
+                        }
+                    },
+                    error: function() {
+                        $('#error-message').text('Error occurred while processing your request.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+<!-- --email, date and time, other info, address, action button. Without Form Starts from here.. -->
+<!-- 
+http://localhost:5002 -->
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bista Solutions Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .chat-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #chat-box {
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .bot-message {
+            background-color: #e1f5fe;
+            align-self: flex-start;
+        }
+
+        .user-message {
+            background-color: #c8e6c9;
+            align-self: flex-end;
+        }
+
+        #user-input {
+            border: none;
+            padding: 15px;
+            flex: none;
+            width: calc(100% - 100px);
+        }
+
+        #send-btn {
+            padding: 15px;
+            background-color: #1e88e5;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            flex: none;
+            width: 100px;
+        }
+
+        #send-btn:hover {
+            background-color: #1565c0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="chat-container">
+        <div id="chat-box">
+            <div class="message bot-message">Hello! Please provide your email address to get started.</div>
+        </div>
+        <div style="display: flex;">
+            <input type="text" id="user-input" placeholder="Enter your email address">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+            var sessionInitialized = false;
+            var sessionId = null;
+
+            $('#send-btn').click(function() {
+                var userInput = $('#user-input').val().trim();
+                if (userInput === '') {
+                    alert('Please enter a message.');
+                    return;
+                }
+
+                if (!sessionInitialized) {
+                    // Handle email submission
+                    fetch("http://localhost:5002/api/chatbot", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ email: userInput })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        $('#chat-box').append('<div class="message user-message">' + userInput + '</div>');
+                        $('#chat-box').append('<div class="message bot-message">' + data.response + '</div>');
+                        $('#user-input').val('');
+                        if (data.response === 'Email verified!! You can ask your questions now.') {
+                            sessionInitialized = true;
+                            sessionId = data.session_id;  // Store the session ID
+                            $('#user-input').attr('placeholder', 'Ask your question');
+                        }
+                    })
+                    .catch(error => {
+                        alert('Error occurred while processing your request.');
+                    });
+                } else {
+                    // Handle normal chat message
+                    fetch("http://localhost:5002/api/chatbot", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ message: userInput, session_id: sessionId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        $('#chat-box').append('<div class="message user-message">' + userInput + '</div>');
+                        $('#chat-box').append('<div class="message bot-message">' + data.response + '</div>');
+                        $('#user-input').val('');
+                    })
+                    .catch(error => {
+                        alert('Error occurred while processing your request.');
+                    });
+                }
+            });
+
+            $('#user-input').keypress(function(event) {
+                if (event.which == 13) {
+                    $('#send-btn').click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+--email, date and time, other info, address, action button.  -->
