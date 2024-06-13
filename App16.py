@@ -280,6 +280,7 @@ def chatbot():
 #     } for user in users]
 #     return render_template('admin-panel.html', users=users_data)
 
+
 @app.route('/admin-panel')
 def adminPanel():
     page = request.args.get('page', 1, type=int)

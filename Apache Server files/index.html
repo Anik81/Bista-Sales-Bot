@@ -108,6 +108,7 @@ Updated index html using new csss -->
     <title>Bista Solutions Chatbot</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        /* Basic styling for body and container */
         body {
             font-family: Arial, sans-serif;
             background: #f4f4f9;
@@ -126,12 +127,14 @@ Updated index html using new csss -->
             max-width: 400px;
             width: 100%;
         }
+        /* Styling for the heading */
         h1 {
             color: #333;
             font-size: 24px;
             margin-bottom: 20px;
             text-align: center;
         }
+        /* Styling for form elements */
         form {
             display: flex;
             flex-direction: column;
@@ -147,6 +150,7 @@ Updated index html using new csss -->
             border-radius: 4px;
             font-size: 16px;
         }
+        /* Styling for the submit button */
         button {
             padding: 12px;
             background-color: #4CAF50;
@@ -159,6 +163,7 @@ Updated index html using new csss -->
         button:hover {
             background-color: #45a049;
         }
+        /* Styling for the error message */
         #error-message {
             margin-top: 20px;
             color: red;
@@ -186,14 +191,19 @@ Updated index html using new csss -->
     
     <script>
         $(document).ready(function() {
+            // Form submission event handler
             $('#user-info-form').submit(function(event) {
+                // Prevent default form submission behavior
                 event.preventDefault();
+                
+                // Retrieve values from the form fields
                 var email = $('#email').val();
                 var contactNumber = $('#contact-number').val();
                 var address = $('#address').val();
 
+                // Send AJAX POST request to the server
                 $.ajax({
-                    url: "http://localhost:5002/api/submit_info",
+                    url: "http://localhost:5002/api/submit_info", // Server endpoint
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify({
@@ -202,15 +212,20 @@ Updated index html using new csss -->
                         address: address
                     }),
                     success: function(response) {
+                        // Check the server response
                         if (response.response === 'Email verified!! You can ask your questions now.') {
+                            // Store email and session ID in local storage
                             localStorage.setItem('user_email', email);
                             localStorage.setItem('session_id', response.session_id);
+                            // Redirect to chat page
                             window.location.href = "chat.html";
                         } else {
+                            // Display error message
                             $('#error-message').text(response.message);
                         }
                     },
                     error: function() {
+                        // Display error message if request fails
                         $('#error-message').text('Error occurred while processing your request.');
                     }
                 });
@@ -219,6 +234,7 @@ Updated index html using new csss -->
     </script>
 </body>
 </html>
+
 
 
 

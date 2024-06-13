@@ -112,7 +112,6 @@
 
 <!-- 
 Updated chat html using new csss -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -120,6 +119,7 @@ Updated chat html using new csss -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bista Solutions Chatbot</title>
     <style>
+        /* Basic styling for body and container */
         body {
             font-family: Arial, sans-serif;
             background: #f4f4f9;
@@ -138,15 +138,18 @@ Updated chat html using new csss -->
             max-width: 500px;
             width: 100%;
         }
+        /* Styling for the heading */
         h1 {
             color: #333;
             font-size: 24px;
             margin-bottom: 20px;
             text-align: center;
         }
+        /* Styling for chat container */
         #chat-container {
             margin-top: 20px;
         }
+        /* Styling for chatbox */
         #chatbox {
             border: 1px solid #ddd;
             padding: 10px;
@@ -159,6 +162,7 @@ Updated chat html using new csss -->
         #chatbox div {
             margin: 5px 0;
         }
+        /* Styling for user and bot messages */
         #chatbox .user-message {
             text-align: right;
             color: #4CAF50;
@@ -167,6 +171,7 @@ Updated chat html using new csss -->
             text-align: left;
             color: #333;
         }
+        /* Styling for the input field */
         input[type="text"] {
             width: calc(100% - 100px);
             padding: 10px;
@@ -174,6 +179,7 @@ Updated chat html using new csss -->
             border-radius: 4px;
             font-size: 16px;
         }
+        /* Styling for the send button */
         button {
             padding: 10px 20px;
             background-color: #4CAF50;
@@ -186,6 +192,7 @@ Updated chat html using new csss -->
         button:hover {
             background-color: #45a049;
         }
+        /* Styling for error message */
         #error-message {
             color: red;
             display: none;
@@ -206,6 +213,7 @@ Updated chat html using new csss -->
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Get references to DOM elements
             const chatbox = document.getElementById("chatbox");
             const userInput = document.getElementById("user-input");
             const sendButton = document.getElementById("send-button");
@@ -215,15 +223,17 @@ Updated chat html using new csss -->
             const userEmail = localStorage.getItem('user_email');
             const sessionId = localStorage.getItem('session_id');
 
+            // Send button click event handler
             sendButton.addEventListener("click", function() {
                 const message = userInput.value;
-                if (message.trim() === "") return;
+                if (message.trim() === "") return; // Don't send empty messages
 
                 appendMessage("User", message, "user-message");
                 userInput.value = "";
 
                 console.log("Sending message to API:", message);
 
+                // Send the user message to the chatbot API
                 fetch("http://localhost:5002/api/chatbot", {
                     method: "POST",
                     headers: {
@@ -249,15 +259,15 @@ Updated chat html using new csss -->
                 });
             });
 
+            // Function to append a message to the chatbox
             function appendMessage(sender, message, messageClass) {
                 const messageElement = document.createElement("div");
                 messageElement.textContent = `${sender}: ${message}`;
                 messageElement.className = messageClass;
                 chatbox.appendChild(messageElement);
-                chatbox.scrollTop = chatbox.scrollHeight;
+                chatbox.scrollTop = chatbox.scrollHeight; // Scroll to the bottom
             }
         });
     </script>
 </body>
 </html>
-
