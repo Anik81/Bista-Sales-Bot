@@ -284,7 +284,7 @@ def chatbot():
 def adminPanel():
     page = request.args.get('page', 1, type=int)
     per_page = 5
-    pagination = UserInfo.query.paginate(page=page, per_page=per_page)
+    pagination = UserInfo.query.order_by(UserInfo.timestamp.desc()).paginate(page=page, per_page=per_page, error_out=False)
     users = pagination.items
     next_url = url_for('adminPanel', page=pagination.next_num) if pagination.has_next else None
     prev_url = url_for('adminPanel', page=pagination.prev_num) if pagination.has_prev else None
