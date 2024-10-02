@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email_List</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    .navbar {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 0;
+        text-align: center;
+        position: relative;
+    }
+    .navbar h1 {
+        margin: 0;
+    }
+    .logout-btn {
+        position: absolute;
+        right: 20px;
+        top: 10px;
+        background-color: #f44336;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .action-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .footer {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 0;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .pagination a {
+        margin: 0 5px;
+        padding: 8px 16px;
+        text-decoration: none;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 5px;
+    }
+    .pagination a.disabled {
+        background-color: #ddd;
+        color: #888;
+        pointer-events: none;
+    }
+</style>
+<script>
+    function deleteUser(sessionId) {
+        fetch(`/api/delete-user/${sessionId}`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.response === "User deleted successfully.") {
+                location.reload();
+            } else {
+                alert("Failed to delete user.");
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+</head>
+<body>
+<div class="navbar">
+    <h1>Email List of Users</h1>
+    <a href="{{ url_for('admin_logout') }}" class="logout-btn">Logout</a>
+</div>
+<div class="container">
+    <div class="field">
+        <label for="email"><strong>All Collected Emails:</strong></label>
+        <table>
+            <thead>
+                <tr>
+                    <th>Session ID</th>
+                    <th>Date & Time</th>
+                    <th>Email Address</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.session_id }}</td>
+                    <td>{{ user.timestamp }}</td>
+                    <td>{{ user.user_email }}</td>
+                    <td>{{ user.contact_number }}</td>
+                    <td>{{ user.address }}</td>
+                    <td><button class="action-btn" onclick="deleteUser('{{ user.session_id }}')">Delete</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            {% if prev_url %}
+                <a href="{{ prev_url }}">Previous</a>
+            {% else %}
+                <a class="disabled">Previous</a>
+            {% endif %}
+            {% if next_url %}
+                <a href="{{ next_url }}">Next</a>
+            {% else %}
+                <a class="disabled">Next</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <p>&copy; 2024 Bistasolutions.com</p>
+</div>
+</body>
+</html>
